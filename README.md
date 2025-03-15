@@ -17,9 +17,6 @@ This project is a partial implementation of the **Elevens** card game in C#. SAt
   - **Shuffling:** 
   - **Dealing:** Removes and returns the top card from the deck.
 
-## Next Steps
-- Implement **GameManager** to handle game logic (matching pairs that sum to 11).
-- Develop **User Interface (UI)** for selecting and removing cards.
-- Implement win/loss conditions and possible AI opponent.
+
 
 

@@ -1,4 +1,3 @@
-# ElevensGame
 # Elevens Game (Partial Implementation)
 
 ## Overview

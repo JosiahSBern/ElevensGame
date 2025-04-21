@@ -29,7 +29,15 @@ namespace Elevens
         // Returns a string representation of the card
         public string GetCard()
         {
-            return $"{Rank} of {Suit}";
+            string rankString = Rank switch
+            {
+                11 => "Jack",
+                12 => "Queen",
+                13 => "King",
+                _ => Rank.ToString() // Default to the numeric rank for other cards
+            };
+
+            return $"{rankString} of {Suit}";
         }
 
         // Flip the card to change its face-up state
@@ -219,6 +227,15 @@ namespace Elevens
         {
             Game game = new Game();
 
+            Console.WriteLine("Welcome to Elevens!");
+            Console.WriteLine("Instructions:");
+            Console.WriteLine("1. Remove pairs of cards that add up to 11.");
+            Console.WriteLine("2. Remove a set of face cards (Jack, Queen, King).");
+            Console.WriteLine("3. Draw cards to refill the grid.");
+            Console.WriteLine("You win if you clear the grid and the deck is empty.");
+            Console.WriteLine("You lose if no moves are possible and the deck is empty.");
+            Console.WriteLine();
+
             while (true)
             {
                 game.DisplayGrid();
@@ -236,32 +253,46 @@ namespace Elevens
                 }
 
                 Console.WriteLine("Enter your move:");
-                Console.WriteLine("1. Remove a pair (enter coordinates x1 y1 x2 y2)");
-                Console.WriteLine("2. Remove a face set (enter coordinates x1 y1 x2 y2 x3 y3)");
+                Console.WriteLine("1. Remove a pair");
+                Console.WriteLine("2. Remove a face set");
                 Console.WriteLine("3. Draw cards to refill the grid");
 
                 string input = Console.ReadLine();
-                string[] parts = input.Split(' ');
 
-                if (parts.Length == 4)
+                if (input == "1")
                 {
-                    int x1 = int.Parse(parts[0]);
-                    int y1 = int.Parse(parts[1]);
-                    int x2 = int.Parse(parts[2]);
-                    int y2 = int.Parse(parts[3]);
+                    Console.WriteLine("Enter the coordinates of the first card to remove (row and column):");
+                    string[] firstCardInput = Console.ReadLine().Split(' ');
+                    int x1 = int.Parse(firstCardInput[0]);
+                    int y1 = int.Parse(firstCardInput[1]);
+
+                    Console.WriteLine("Enter the coordinates of the second card to remove (row and column):");
+                    string[] secondCardInput = Console.ReadLine().Split(' ');
+                    int x2 = int.Parse(secondCardInput[0]);
+                    int y2 = int.Parse(secondCardInput[1]);
+
                     game.RemovePair(x1, y1, x2, y2);
                 }
-                else if (parts.Length == 6)
+                else if (input == "2")
                 {
-                    int x1 = int.Parse(parts[0]);
-                    int y1 = int.Parse(parts[1]);
-                    int x2 = int.Parse(parts[2]);
-                    int y2 = int.Parse(parts[3]);
-                    int x3 = int.Parse(parts[4]);
-                    int y3 = int.Parse(parts[5]);
+                    Console.WriteLine("Enter the coordinates of the first card (row and column):");
+                    string[] firstCardInput = Console.ReadLine().Split(' ');
+                    int x1 = int.Parse(firstCardInput[0]);
+                    int y1 = int.Parse(firstCardInput[1]);
+
+                    Console.WriteLine("Enter the coordinates of the second card (row and column):");
+                    string[] secondCardInput = Console.ReadLine().Split(' ');
+                    int x2 = int.Parse(secondCardInput[0]);
+                    int y2 = int.Parse(secondCardInput[1]);
+
+                    Console.WriteLine("Enter the coordinates of the third card (row and column):");
+                    string[] thirdCardInput = Console.ReadLine().Split(' ');
+                    int x3 = int.Parse(thirdCardInput[0]);
+                    int y3 = int.Parse(thirdCardInput[1]);
+
                     game.RemoveFaceSet(x1, y1, x2, y2, x3, y3);
                 }
-                else if (parts.Length == 1 && parts[0] == "3")
+                else if (input == "3")
                 {
                     Console.WriteLine("Refilling the grid...");
                     game.DisplayGrid();
